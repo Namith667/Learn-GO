@@ -1,11 +1,9 @@
 package main
 //implementation of goroutines and channels
-
 import (
 	"fmt"
 	"net/http"
 	"time"
-
 )
 func main() {
 	links := []string{
@@ -16,22 +14,19 @@ func main() {
 		"http://amazon.com",
 	}
 	c := make(chan string)
-	
+
 	for _, link:=  range links{
 		go checkLink(link,  c)
 	}
-
 	//channel lsistens in a looping manner till size limit of slice in checkLink
 	//receive channel 
 	for l := range c {
-		go func (){
+		go func (link string){
 			time.Sleep(5*time.Second)
-			checkLink(l, c)
-		}()
+			checkLink(link, c)
+		}(l)// pass `l` explicitly to avoid sharing issues
 	}
-
 }
-
 func checkLink(link string, c chan string){
 	_,err := http.Get(link)
 	if err != nil{
@@ -41,6 +36,4 @@ func checkLink(link string, c chan string){
 	}
 	fmt.Println(link," is up")
 	c <- link
-
-	
 }
