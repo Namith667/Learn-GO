@@ -18,8 +18,12 @@ func main() {
 	for _, link:=  range links{
 		go checkLink(link,  c)
 	}
-	//channel lsistens in a looping manner till size limit of slice in checkLink
+	
+	
+	//channel listens in a looping manner till size limit of slice in checkLink
 	//receive channel 
+	
+	//makes use of closures in anonymous function
 	for l := range c {
 		go func (link string){
 			time.Sleep(5*time.Second)
@@ -27,6 +31,7 @@ func main() {
 		}(l)// pass `l` explicitly to avoid sharing issues
 	}
 }
+
 func checkLink(link string, c chan string){
 	_,err := http.Get(link)
 	if err != nil{
