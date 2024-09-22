@@ -8,7 +8,7 @@ import (
 
 	//"golang.org/x/text/cases"
 )
-
+//resp struct to store data
 type Response struct {
 	value int
 	err error
